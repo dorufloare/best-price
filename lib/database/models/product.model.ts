@@ -14,7 +14,7 @@ const ProductSchema = new Schema({
     type: Boolean,
   },
   priceHistory: {
-    type: Number,
+    type: [Number],
   },
   currency: {
     type: String,
