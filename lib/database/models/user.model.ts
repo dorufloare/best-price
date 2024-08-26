@@ -28,7 +28,6 @@ const UserSchema = new Schema({
   },
   completedPayment: {
     type: Boolean,
-    required: true,
   },
   products: {
     type: [String], 

@@ -26,7 +26,7 @@ export const connectToDatabase = async() => {
                 || mongoose.connect(
                   MONGODB_URL,
                   {
-                    dbName: 'aiphotoeditor',
+                    dbName: 'best-price',
                     bufferCommands: false
                   }
                 )
