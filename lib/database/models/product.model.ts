@@ -7,9 +7,6 @@ const ProductSchema = new Schema({
   url: {
     type: String,
   },
-  source: {
-    type: String,
-  },
   available: {
     type: Boolean,
   },
@@ -17,6 +14,9 @@ const ProductSchema = new Schema({
     type: [Number],
   },
   currency: {
+    type: String,
+  },
+  imageUrl: {
     type: String,
   }
 });

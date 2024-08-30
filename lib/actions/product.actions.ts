@@ -2,8 +2,9 @@
 
 import { revalidatePath } from "next/cache";
 
-import Product from "../database/models/user.model";
+import Product from "../database/models/product.model";
 import { connectToDatabase } from "../database/mongoose";
+import { ConnectionCheckedOutEvent } from "mongodb";
 
 export async function createProduct(product: ProductData) {
   try {
@@ -31,6 +32,23 @@ export async function getProductById(productId: string) {
   } catch (error) {
     console.error('Error fetching product by ID:', error);
     throw new Error(`Could not fetch product with ID: ${productId}`);
+  }
+}
+
+export async function getProductIdByUrl(productUrl: string) {
+  try {
+    await connectToDatabase();
+
+    const product = await Product.findOne({url: productUrl});
+
+    if (!product) 
+      return null;
+    else
+      return JSON.parse(JSON.stringify(product._id));
+
+  } catch(error) {
+    console.error('Error fetching product by URL:', error);
+    throw new Error(`Could not fetch product with URL: ${productUrl}`);
   }
 }
 
@@ -74,5 +92,19 @@ export async function deleteProduct(productId: string) {
   } catch(error) {
     console.error('Error fetching product by ID:', error);
     throw new Error(`Could not fetch product with ID: ${productId}`);
+  }
+}
+
+export async function getAllProducts() {
+  try {
+    await connectToDatabase();
+
+    const allProducts = await Product.find({});
+
+    return JSON.parse(JSON.stringify(allProducts));
+
+  } catch(error) {
+    console.log('Error fetching all products', error);
+    throw new Error('Could not fetch all products');
   }
 }

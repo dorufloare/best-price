@@ -1,8 +1,13 @@
 declare type ProductData = {
+  _id?: string,
   name: string,
   url: string,
-  source: string,
   available: boolean,
   priceHistory: number[],
-  currency: string
+  currency: string,
+  imageUrl: string,
 };
+
+declare type UserData = {
+  
+}
