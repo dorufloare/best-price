@@ -14,12 +14,12 @@ const ProductPage: React.FC = () => {
 
   const [product, setProduct] = useState<ProductData>();
 
-  if (!productId) return <p>Loading...</p>;
-
   const fetchProductData = async () => {
     try {
-      const fetchedProduct = await getProductById(productId);
-      setProduct(fetchedProduct);
+      if (productId) {
+        const fetchedProduct = await getProductById(productId);
+        setProduct(fetchedProduct);
+      }
     } catch (error) {
       console.log('Error fetching product data');
     }
@@ -30,7 +30,7 @@ const ProductPage: React.FC = () => {
     fetchProductData();
   }, []);
 
-  if (!product) return <p>Loading...</p>;
+  if (!product || !productId) return <p>Loading...</p>;
 
   return (
     <div className="mx-[16%] mt-16 h-screen">
