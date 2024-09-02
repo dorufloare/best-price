@@ -18,7 +18,7 @@ export async function scrapeEmagProduct(url: string) {
 
       const title = document.querySelector('.page-title')?.textContent?.trim() || '';
       const currentPriceText = document.querySelector('.product-new-price')?.textContent?.trim() || '';
-      const originalPriceText = document.querySelector('.product-new-price.has-deal')?.textContent?.trim() || currentPriceText;
+      const originalPriceText = document.querySelector('.rrp-lp30d-content')?.textContent?.trim() || currentPriceText;
       const currentPrice = (currentPriceText.replace(/[^\d.-]/g, '')) || '0';
       const originalPrice = (originalPriceText.replace(/[^\d.-]/g, '')) || currentPrice;
       const available = (currentPrice != '0' && !!currentPrice);
@@ -34,13 +34,15 @@ export async function scrapeEmagProduct(url: string) {
       const processedCurrentPrice = processPriceEmag(currentPrice);
       const processedOriginalPrice = processPriceEmag(originalPrice);
 
+      console.log("ori", processedOriginalPrice);
+
       const scrapedProduct : ProductData = {
         name: title,
         url: url,
         available: available,
         currency: 'lei',
         imageUrl: image,
-        priceHistory: [processedCurrentPrice]
+        priceHistory: [processedCurrentPrice],
       };
 
       return scrapedProduct;

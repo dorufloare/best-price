@@ -14,51 +14,26 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { checkUrl } from '@/lib/product.utils';
-import { createProduct, getAllProducts, getProductIdByUrl } from '@/lib/actions/product.actions';
+import { addProductToCache, checkUrl } from '@/lib/product.utils';
+import { createProduct, getAllProducts, getProductById, getProductIdByUrl } from '@/lib/actions/product.actions';
 import { scrapeData } from '@/lib/scaper/scraper';
-import { getUserById } from '@/lib/actions/user.actions';
+import { addProductToUser, getUserById, updateUser } from '@/lib/actions/user.actions';
 import { useAuth } from '@clerk/nextjs';
 
 interface Props {
   products: ProductData[];
   setProducts: React.Dispatch<React.SetStateAction<ProductData[]>>;
+  fetchProducts: () => Promise<void>;
+  user: UserData | undefined;
+  setUser: React.Dispatch<React.SetStateAction<UserData | undefined>>;
 }
 
-const NewProductDialog: React.FC<Props> = ({ products, setProducts }) => {
+const NewProductDialog: React.FC<Props> = ({ products, setProducts, fetchProducts, user, setUser}) => {
   const { userId } = useAuth();
   const [productUrl, setProductUrl] = useState('');
   const [formErrorMessage, setFormErrorMessage] = useState('');
-  const [user, setUser] = useState<any>(null);
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
-  useEffect(() => {
-    if (userId) {
-      fetchUser();
-      fetchProducts();
-    }
-  }, [userId]);
-
-  const fetchUser = async () => {
-    if (!userId) return;
-
-    try {
-      const fetchedUser = await getUserById(userId);
-      setUser(fetchedUser);
-    } catch (error) {
-      console.error("Error fetching User:", error);
-    }
-  };
-
-  const fetchProducts = async () => {
-    try {
-      const fetchedProducts = await getAllProducts();
-      setProducts(fetchedProducts);
-    } catch (error) {
-      console.error("Error fetching Products:", error);
-    }
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -74,7 +49,10 @@ const NewProductDialog: React.FC<Props> = ({ products, setProducts }) => {
     }
 
     try {
+      //Check if the product already exists in the database
+
       const productWithUrl = await getProductIdByUrl(productUrl);
+      let newProduct: (ProductData | null) = null;
 
       if (!productWithUrl) {
         const scrapedProduct = await scrapeData(productUrl);
@@ -85,20 +63,35 @@ const NewProductDialog: React.FC<Props> = ({ products, setProducts }) => {
           return;
         }
 
-        await createProduct(scrapedProduct);
+        newProduct = await createProduct(scrapedProduct);
       } else {
-        const existingProduct = products.find((product) => product._id === productWithUrl);
-
-        if (existingProduct) {
-          setFormErrorMessage('* This product has already been added into your collection');
-          setIsLoading(false);
-          return;
-        }
+        newProduct = await getProductById(productWithUrl);
       }
+
+      //Check if the product is already associated to the user
+     
+      if (!user || !newProduct || !newProduct._id) return;
+
+      if (user.products.find((productId) => productId === newProduct._id)) {
+        setFormErrorMessage('* This product has already been added into your collection');
+        setIsLoading(false);
+        return;
+      }
+
+      //Add the product to the user
+      const updatedUser: UserData = {
+        ...user,
+        products: [...user.products, newProduct._id],
+      };
+
+      console.log("WILL ADD PRODUCT");
+      await addProductToUser(user.clerkId, newProduct._id);
+      setUser(updatedUser);
 
       setFormErrorMessage('');
       setProductUrl('');
       setOpen(false);
+      addProductToCache(newProduct);
       await fetchProducts();
     } catch (error) {
       console.error("Error during submission:", error);
@@ -111,7 +104,7 @@ const NewProductDialog: React.FC<Props> = ({ products, setProducts }) => {
   if (!userId) return null; 
 
   return (
-    <div className='w-1/4 flex justify-center cursor-pointer'>
+    <div className='w-1/2 flex justify-center cursor-pointer md:w-1/4'>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Image

@@ -1,8 +1,20 @@
-import { SignUp } from '@clerk/nextjs'
-import React from 'react'
+"use client"; 
 
-const SignUpPage = () => {
-  return (<SignUp />)
-}
+import { SignUp } from '@clerk/nextjs';
+import React, { useEffect } from 'react';
 
-export default SignUpPage
+const SignInPage = () => {
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      localStorage.clear();
+    }
+  }, []); 
+
+  return (
+    <div className='flex justify-center align-middle items-center h-screen'>
+      <SignUp/>
+    </div>
+  )
+};
+
+export default SignInPage;

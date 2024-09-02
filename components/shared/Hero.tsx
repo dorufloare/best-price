@@ -2,6 +2,7 @@ import React from 'react'
 import { Button } from "@/components/ui/button";
 import Header from './Header';
 import { auth } from '@clerk/nextjs/server';
+import Link from 'next/link';
 
 const Hero = () => {
   const { userId }: { userId: string | null } = auth();
@@ -38,7 +39,11 @@ const Hero = () => {
               </div>
               {/* Buttons */}
               <div className="mt-8 gap-3 flex justify-center">
-                <a href={isLoggedIn ? '/dashboard' : '/sign-in'}> <Button size={"lg"}> Get started </Button> </a>
+                <Link href={isLoggedIn ? '/dashboard' : '/sign-in'}> 
+                  <Button size={"lg"}> 
+                    Get started 
+                  </Button> 
+                </Link>
                 <Button size={"lg"} variant={"outline"}>
                   Learn more
                 </Button>

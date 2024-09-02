@@ -6,6 +6,7 @@ import {
   SignedOut,
   UserButton
 } from '@clerk/nextjs'
+import Link from 'next/link'
 
 
 const Header = () => {
@@ -13,14 +14,14 @@ const Header = () => {
     <nav className='flex flex-row justify-between items-center pb-4 bg-slate-50'>
       <div className='flex flex-row justify-center pl-[20%] pt-4 gap-12'>
         <div className=''>
-          <a href='/'>
+          <Link href='/'>
             Home
-          </a>
+          </Link>
         </div>
         <div>
-          <a href='/dashboard'>
+          <Link href='/dashboard'>
             Dashboard
-          </a>
+          </Link>
         </div>
       </div>
     
@@ -29,7 +30,7 @@ const Header = () => {
           <SignInButton />
         </SignedOut>
         <SignedIn>
-          <UserButton />
+          <UserButton/ >
         </SignedIn>
       </div>
     </nav>

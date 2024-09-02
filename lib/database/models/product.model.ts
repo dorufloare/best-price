@@ -18,7 +18,8 @@ const ProductSchema = new Schema({
   },
   imageUrl: {
     type: String,
-  }
+  },
+
 });
 
 export default models.Product || model("Product", ProductSchema);

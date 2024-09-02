@@ -22,7 +22,7 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <ClerkProvider afterSignOutUrl={'/'}>
       <html lang="en">
         <body>
           {children}

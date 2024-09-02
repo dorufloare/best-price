@@ -95,6 +95,7 @@ export async function addProductToUser(clerkId: string, productId: string) {
 
     if (!user.products.includes(productId)) {
       user.products.push(productId);
+      console.log("Prod", productId, 'added to', user);
       await user.save(); 
     } else {
       console.log(`Product with ID ${productId} is already associated with user ${clerkId}`);

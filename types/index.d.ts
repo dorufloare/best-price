@@ -6,8 +6,17 @@ declare type ProductData = {
   priceHistory: number[],
   currency: string,
   imageUrl: string,
+
 };
 
 declare type UserData = {
-  
+  _id?: string,
+  clerkId: string,
+  email: string,
+  username: string,
+  photo: string,
+  firstName: string,
+  lastName: string,
+  completedPayment: string,
+  products: string[] 
 }
