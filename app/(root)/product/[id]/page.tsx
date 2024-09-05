@@ -1,7 +1,8 @@
 "use client";
 
+import PriceChart from '@/components/shared/PriceChart';
 import { getProductById } from '@/lib/actions/product.actions';
-import { getCurrentPrice } from '@/lib/product.utils';
+import { getAveragePrice, getCurrentPrice, getHighestPrice, getLowestPrice } from '@/lib/product.utils';
 import { useAuth } from '@clerk/nextjs';
 import Image from 'next/image';
 import { redirect, useParams } from 'next/navigation';
@@ -13,6 +14,8 @@ const ProductPage: React.FC = () => {
   const productId = params?.id as string | undefined;
 
   const [product, setProduct] = useState<ProductData>();
+  let priceDescription: string = '';
+
 
   const fetchProductData = async () => {
     try {
@@ -36,7 +39,7 @@ const ProductPage: React.FC = () => {
     <div className="mx-[16%] mt-16 h-screen">
       <div className="flex flex-row gap-16 h-full">
         <div className="flex justify-center">
-          <div className="relative w-[400px] h-[400px] overflow-hidden bg-gray-200"> 
+          <div className="relative w-[500px] h-[500px] overflow-hidden bg-gray-200 mt-32"> 
             <Image
               src={product.imageUrl}
               alt="product image"
@@ -47,12 +50,17 @@ const ProductPage: React.FC = () => {
           </div>
         </div>
         <div>
-          <h3 className="text-lg font-semibold text-gray-900 sm:text-md text-left mt-7">
-            {product.name}
-          </h3>
-          <p className="text-xl font-bold text-gray-900 mt-16 ml-10">
-            {product.available ? getCurrentPrice(product) + ' ' + product.currency : 'Out of stock'}
-          </p>
+          <div className='ml-6'>
+            <h3 className="text-lg font-semibold text-gray-900 sm:text-md text-left mt-7">
+              {product.name}
+            </h3>
+            <p className='text-sm text-gray-800 italic underline mt-3 tracking-wide'>
+              <a href={product.url}>
+                Visit product
+              </a>
+            </p>
+          </div>
+         <PriceChart product={product}/>
         </div>
       </div>
     </div>
