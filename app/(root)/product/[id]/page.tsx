@@ -36,10 +36,10 @@ const ProductPage: React.FC = () => {
   if (!product || !productId) return <p>Loading...</p>;
 
   return (
-    <div className="mx-[16%] mt-16 h-screen">
-      <div className="flex flex-row gap-16 h-full">
+    <div className="mx-[5%] md:mx-[16%] mt-2 md:mt-16 h-screen">
+      <div className="flex flex-col md:flex-row gap-2 md:gap-16 h-full">
         <div className="flex justify-center">
-          <div className="relative w-[500px] h-[500px] overflow-hidden bg-gray-200 mt-32"> 
+          <div className="relative w-[200px] h-[200px] md:w-[350px] md:h-[350px] lg:w-[500px] lg:h-[500px] overflow-hidden bg-gray-200 mt-4 md:mt-32"> 
             <Image
               src={product.imageUrl}
               alt="product image"
@@ -50,11 +50,11 @@ const ProductPage: React.FC = () => {
           </div>
         </div>
         <div>
-          <div className='ml-6'>
-            <h3 className="text-lg font-semibold text-gray-900 sm:text-md text-left mt-7">
+          <div className='md:ml-6'>
+            <h3 className="text-xs md:text-lg font-semibold text-gray-900 text-left md:mt-7">
               {product.name}
             </h3>
-            <p className='text-sm text-gray-800 italic underline mt-3 tracking-wide'>
+            <p className='text-xs md:text-sm text-blue-800 underline mt-3 md:tracking-wide'>
               <a href={product.url}>
                 Visit product
               </a>

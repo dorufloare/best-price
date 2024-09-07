@@ -89,14 +89,17 @@ const PriceChart: React.FC<Props> = ({ product }) => {
   }, [nrdays, priceHistory]);
 
   return (
-    <Card className="mt-10">
-      <CardHeader>
+    <Card className="md:mt-10">
+      <CardHeader className="p-0 md:p-6">
         <div className="flex flex-row justify-between items-center">
-          <CardTitle className="mb-6 text-red-600 p-0 m-0">
-            {product.available ? getCurrentPrice(product) + ' ' + product.currency + ' - ' + priceDescription : 'Out of stock'}
-          </CardTitle>
+          <div>
+           <CardTitle className="text-md md:text-2xl mb-6 text-red-600">
+              {product.available ? getCurrentPrice(product) + ' ' + product.currency : 'Out of stock'}
+            </CardTitle>
+            <p className="text-xs Smd:text-md md:my-2 text-red-600"> * {priceDescription} </p>
+          </div>
           <Select onValueChange={(value) => {setNrdays(getNrdaysByValue(value))}}>
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-[90px] h-[30px] md:h-[40px] md:w-[180px]">
               <SelectValue placeholder="Timeframe" />
             </SelectTrigger>
             <SelectContent>
@@ -107,11 +110,11 @@ const PriceChart: React.FC<Props> = ({ product }) => {
             </SelectContent>
           </Select>
         </div>
-        <CardDescription>
+        <CardDescription className="text-xs md:text-sm">
           {`Prices for the last ${chartData.length} days`}
         </CardDescription>
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-0 md:p-6">
         <ChartContainer config={chartConfig}>
           <AreaChart
             data={chartData}
@@ -128,7 +131,7 @@ const PriceChart: React.FC<Props> = ({ product }) => {
               tickMargin={8}
               minTickGap={0}
               interval={nrdays > 7 ? 'preserveEnd' : 0} 
-              tickFormatter={(value) => (chartData.length > 7 ? '' : value)} 
+              tickFormatter={() => ''} 
             />
             <YAxis
               tickLine={false}
