@@ -95,7 +95,7 @@ const Dashboard = () => {
           setUser={setUser}
         />
         {products.map((product : any) => (
-          <div className='w-1/2 flex justify-center cursor-pointer md:w-1/4' key={product._id}>
+          <div className='w-1/2 flex justify-center cursor-pointer xl:w-1/4' key={product._id}>
             <Link href={`/product/${product._id}`}>
               <ProductThumbnail
                 imageUrl={product.imageUrl}

@@ -104,7 +104,7 @@ const NewProductDialog: React.FC<Props> = ({ products, setProducts, fetchProduct
   if (!userId) return null; 
 
   return (
-    <div className='w-1/2 flex justify-center cursor-pointer md:w-1/4'>
+    <div className='w-1/2 flex justify-center cursor-pointer xl:w-1/4'>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           <Image

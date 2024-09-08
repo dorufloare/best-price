@@ -90,27 +90,29 @@ const PriceChart: React.FC<Props> = ({ product }) => {
 
   return (
     <Card className="md:mt-10">
-      <CardHeader className="p-0 md:p-6">
-        <div className="flex flex-row justify-between items-center">
-          <div>
-           <CardTitle className="text-md md:text-2xl mb-6 text-red-600">
+      <CardHeader className="p-0 md:p-6 mt-2">
+        <div className="flex flex-row justify-between items-center mb-3">
+          <div className="flex flex-row items-center md:flex-col md:items-start gap-4 md:gap-0">
+            <CardTitle className="text-md md:text-2xl mb-0 md:mb-2 text-red-600">
               {product.available ? getCurrentPrice(product) + ' ' + product.currency : 'Out of stock'}
             </CardTitle>
-            <p className="text-xs Smd:text-md md:my-2 text-red-600"> * {priceDescription} </p>
+            <p className="text-xs md:text-base text-red-600"> * {priceDescription} </p>
           </div>
-          <Select onValueChange={(value) => {setNrdays(getNrdaysByValue(value))}}>
-            <SelectTrigger className="w-[90px] h-[30px] md:h-[40px] md:w-[180px]">
-              <SelectValue placeholder="Timeframe" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="week">last week</SelectItem>
-              <SelectItem value="month">last month</SelectItem>
-              <SelectItem value="three months">last three months</SelectItem>
-              <SelectItem value="year">last year</SelectItem>
-            </SelectContent>
-          </Select>
+          <div className="hidden lg:block">
+            <Select onValueChange={(value) => {setNrdays(getNrdaysByValue(value))}} >
+              <SelectTrigger className="h-[40px] w-[180px]">
+                <SelectValue placeholder="Timeframe"/>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="week">last week</SelectItem>
+                <SelectItem value="month">last month</SelectItem>
+                <SelectItem value="three months">last three months</SelectItem>
+                <SelectItem value="year">last year</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
         </div>
-        <CardDescription className="text-xs md:text-sm">
+        <CardDescription className="text-xs md:text-sm pb-3">
           {`Prices for the last ${chartData.length} days`}
         </CardDescription>
       </CardHeader>
@@ -119,8 +121,8 @@ const PriceChart: React.FC<Props> = ({ product }) => {
           <AreaChart
             data={chartData}
             margin={{
-              left: 60, 
-              right: 40,
+              left: 35, 
+              right: 20,
             }}
           >
             <CartesianGrid vertical={false} />
@@ -154,6 +156,19 @@ const PriceChart: React.FC<Props> = ({ product }) => {
           </AreaChart>
         </ChartContainer>
       </CardContent>
+      <div className="lg:hidden">
+        <Select onValueChange={(value) => {setNrdays(getNrdaysByValue(value))}} >
+          <SelectTrigger className="w-[120px] h-[30px]">
+            <SelectValue placeholder="Timeframe"/>
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="week">last week</SelectItem>
+            <SelectItem value="month">last month</SelectItem>
+            <SelectItem value="three months">last three months</SelectItem>
+            <SelectItem value="year">last year</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
     </Card>
   );
 };

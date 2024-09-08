@@ -36,25 +36,25 @@ const ProductPage: React.FC = () => {
   if (!product || !productId) return <p>Loading...</p>;
 
   return (
-    <div className="mx-[5%] md:mx-[16%] mt-2 md:mt-16 h-screen">
-      <div className="flex flex-col md:flex-row gap-2 md:gap-16 h-full">
-        <div className="flex justify-center">
-          <div className="relative w-[200px] h-[200px] md:w-[350px] md:h-[350px] lg:w-[500px] lg:h-[500px] overflow-hidden bg-gray-200 mt-4 md:mt-32"> 
+    <div className="mx-[5%] md:mx-[10%] lg:mx-[16%] mt-2 md:mt-8 lg:mt-16 h-screen">
+      <div className="flex flex-col lg:flex-row gap-2 lg:gap-16 h-full w-full">
+        <div className="flex justify-center h-[20rem] md:h-[100rem] lg:h-auto lg:w-[40%]">
+          <div className="relative w-full h-[15rem] md:h-[30rem] lg:h-auto overflow-hidden mt-4 lg:mt-32 items-start "> 
             <Image
               src={product.imageUrl}
               alt="product image"
               layout="fill" 
-              objectFit="cover" 
-              objectPosition="center" 
+              objectFit="contain" 
+              objectPosition="top" 
             />
           </div>
         </div>
-        <div>
-          <div className='md:ml-6'>
-            <h3 className="text-xs md:text-lg font-semibold text-gray-900 text-left md:mt-7">
+        <div className='lg:w-[50%]'>
+          <div className='lg:ml-6'>
+            <h3 className="text-xs md:text-lg lg:text-lg font-semibold text-gray-900 text-left lg:mt-7">
               {product.name}
             </h3>
-            <p className='text-xs md:text-sm text-blue-800 underline mt-3 md:tracking-wide'>
+            <p className='text-xs md:text-sm lg:text-sm text-blue-800 underline mt-3 md:tracking-wide mb-5'>
               <a href={product.url}>
                 Visit product
               </a>
