@@ -1,6 +1,6 @@
 "use server"
 import { getUrlSource } from "../product.utils";
-import { scrapeEmagProduct } from "./emag.scraper";
+import { scrapeEmagPrice, scrapeEmagProduct } from "./emag.scraper";
 
 import puppeteer, { Browser, Page } from "puppeteer";
 
@@ -24,6 +24,19 @@ export async function scrapeData(url: string) {
   let scrapedData = null;
   if (source == 'emag') {
     scrapedData = await scrapeEmagProduct(url);
+  }
+
+  return scrapedData;
+}
+
+export async function scrapePrice(url: string) {
+  const source = getUrlSource(url);
+
+  if (!source) return null;
+
+  let scrapedData = null;
+  if (source == 'emag') {
+    scrapedData = await scrapeEmagPrice(url);
   }
 
   return scrapedData;

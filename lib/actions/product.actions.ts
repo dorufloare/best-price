@@ -66,7 +66,7 @@ export async function updateProduct(productId: string, product: ProductData) {
       throw new Error('Product not found');
     }
 
-    return JSON.parse(JSON.stringify(product));
+    return JSON.parse(JSON.stringify(updatedProduct));
   } catch (error) {
     console.error('Error fetching product by ID:', error);
     throw new Error(`Could not fetch product with ID: ${productId}`);
