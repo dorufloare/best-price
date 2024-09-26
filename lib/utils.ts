@@ -14,5 +14,3 @@ export function getPastDate(nrDays: number) {
   const year = date.getFullYear();
   return `${day}-${month}-${year}`;
 }
-
-

@@ -6,7 +6,6 @@ const API_KEY = process.env.API_KEY;
 
 export async function POST(request: Request) {
   const apiKey = request.headers.get('x-api-key');
-  console.log("----------------------------->", apiKey, "and", API_KEY)
   if (!apiKey || apiKey !== API_KEY) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }

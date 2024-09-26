@@ -14,11 +14,12 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { addProductToCache, checkUrl } from '@/lib/product.utils';
+import { checkUrl } from '@/lib/product.utils';
 import { createProduct, getAllProducts, getProductById, getProductIdByUrl } from '@/lib/actions/product.actions';
 import { scrapeData } from '@/lib/scaper/scraper';
 import { addProductToUser, getUserById, updateUser } from '@/lib/actions/user.actions';
 import { useAuth } from '@clerk/nextjs';
+import { addProductToCache } from '@/lib/cache.utils';
 
 interface Props {
   products: ProductData[];
@@ -92,6 +93,8 @@ const NewProductDialog: React.FC<Props> = ({ products, setProducts, fetchProduct
       setProductUrl('');
       setOpen(false);
       addProductToCache(newProduct);
+      setProducts(prevProducts => [...prevProducts, newProduct]);
+
       await fetchProducts();
     } catch (error) {
       console.error("Error during submission:", error);

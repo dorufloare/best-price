@@ -41,6 +41,19 @@ export async function getUserById(userId: string) {
   }
 }
 
+export async function getAllUsers() {
+  try {
+    await connectToDatabase();
+
+    const users = await User.find({}); // Fetch all users
+
+    return JSON.parse(JSON.stringify(users));
+  } catch (error) {
+    console.error("Error fetching all users:", error);
+    throw new Error("Failed to fetch users. Please try again.");
+  }
+}
+
 export async function updateUser(clerkId: string, user: {
   firstName: string;
   lastName: string;
@@ -104,5 +117,31 @@ export async function addProductToUser(clerkId: string, productId: string) {
   } catch (error) {
     console.error(`Error adding product to user with ID ${clerkId}:`, error);
     throw new Error("Failed to add product to user. Please try again.");
+  }
+}
+
+export async function removeProductFromUser(clerkId: string, productId: string) {
+  try {
+    await connectToDatabase();
+
+    const user = await User.findOne({ clerkId });
+
+    if (!user) {
+      throw new Error(`User with ID ${clerkId} not found`);
+    }
+
+    const productIndex = user.products.indexOf(productId);
+
+    if (productIndex > -1) {
+      user.products.splice(productIndex, 1);
+      console.log("Product", productId, 'removed from', user);
+      await user.save(); 
+    } else {
+      console.log(`Product with ID ${productId} is not associated with user ${clerkId}`);
+    }
+
+  } catch (error) {
+    console.error(`Error removing product from user with ID ${clerkId}:`, error);
+    throw new Error("Failed to remove product from user. Please try again.");
   }
 }

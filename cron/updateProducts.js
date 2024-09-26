@@ -6,7 +6,7 @@ dotenv.config();
 async function callUpdateProducts() {
   const apiUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/api/updateProducts`;
   const apiKey = process.env.API_KEY;
-  console.log(apiUrl)
+ 
   try {
     const response = await axios.post(apiUrl, null, {
       headers: {

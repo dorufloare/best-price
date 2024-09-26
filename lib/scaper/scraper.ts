@@ -1,8 +1,12 @@
 "use server"
 import { getUrlSource } from "../product.utils";
+import { scrapeAltexPrice, scrapeAltexProduct } from "./altex.scraper";
 import { scrapeEmagPrice, scrapeEmagProduct } from "./emag.scraper";
 
 import puppeteer, { Browser, Page } from "puppeteer";
+import { scrapeMediagalaxyPrice, scrapeMediagalaxyProduct } from "./mediagalaxy.scraper";
+import { scrapeCelPrice, scrapeCelProduct } from "./cel.scraper";
+import { scrapeNikePrice, scrapeNikeProduct } from "./nike.scraper";
 
 export async function setupPuppeteer() {
   const browser = await puppeteer.launch({ headless: true });
@@ -25,7 +29,19 @@ export async function scrapeData(url: string) {
   if (source == 'emag') {
     scrapedData = await scrapeEmagProduct(url);
   }
-
+  if (source == 'altex') {
+    scrapedData = await scrapeAltexProduct(url);
+  }
+  if (source == 'mediagalaxy') {
+    scrapedData = await scrapeMediagalaxyProduct(url);
+  }
+  if (source == 'cel') {
+    scrapedData = await scrapeCelProduct(url);
+  }
+  if (source == 'nike') {
+    scrapedData = await scrapeNikeProduct(url);
+  }
+ 
   return scrapedData;
 }
 
@@ -38,6 +54,18 @@ export async function scrapePrice(url: string) {
   if (source == 'emag') {
     scrapedData = await scrapeEmagPrice(url);
   }
-
+  if (source == 'altex') {
+    scrapedData = await scrapeAltexPrice(url);
+  }
+  if (source == 'mediagalaxy') {
+    scrapedData = await scrapeMediagalaxyPrice(url);
+  }
+  if (source == 'cel') {
+    scrapedData = await scrapeCelPrice(url);
+  }
+  if (source == 'nike') {
+    scrapedData = await scrapeNikePrice(url);
+  }
+  
   return scrapedData;
 }

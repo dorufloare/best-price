@@ -4,13 +4,15 @@ import React, { useState, useEffect } from 'react';
 import ProductThumbnail from '@/components/shared/ProductThumbnail';
 import { getProductById } from '@/lib/actions/product.actions';
 import { getUserById } from '@/lib/actions/user.actions';
-import { addProductToCache, getCurrentPrice, loadProductsFromCache } from '@/lib/product.utils';
+import { getCurrentPrice } from '@/lib/product.utils';
 import { useAuth } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import NewProductDialog from '@/components/shared/NewProductDialog';
 import Link from 'next/link';
+import { addProductToCache, clearProductsCacheIfExpired, loadProductsFromCache } from '@/lib/cache.utils';
 
 const Dashboard = () => {
+
   const { userId, isSignedIn, isLoaded } = useAuth();
   const router = useRouter();
   const [products, setProducts] = useState<ProductData[]>([]);
@@ -42,7 +44,7 @@ const Dashboard = () => {
     const cachedProducts = loadProductsFromCache();
     if (cachedProducts && cachedProducts.length > 0) {
       fetchedProducts = cachedProducts;
-    } else {
+    } else  {
       const fetchedProductIds = user?.products || [];
       if (!fetchedProductIds.length) return;
 
@@ -62,6 +64,7 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
+    clearProductsCacheIfExpired();
     if (isLoaded) {
       if (!isSignedIn) {
         router.push("/sign-in");

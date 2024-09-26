@@ -9,11 +9,24 @@ export function getCurrentPrice(product: any) {
 }
 
 export function getUrlSource(url: string) {
-  if (url.includes("emag")) {
-    return "emag";
+  const sources = [
+    { domain: 'emag', source: 'emag' },
+    { domain: 'altex', source: 'altex' },
+    { domain: 'mediagalaxy', source: 'mediagalaxy' },
+    { domain: 'cel', source: 'cel' },
+    { domain: 'nike', source: 'nike' },
+
+  ];
+
+  for (const { domain, source } of sources) {
+    if (url.includes(domain)) {
+      return source;
+    }
   }
+  
   return null;
 }
+
 export function getLowestPrice(product: any, nrDays?: number) {
   if (!product?.priceHistory || product.priceHistory.length === 0) return null;
 
@@ -68,21 +81,6 @@ export function checkUrl(url: string) {
 
 }
 
-export const loadProductsFromCache =  () => {
-  const products = localStorage.getItem('products');
-  return products ? JSON.parse(products) : null;
-};
-
-export const addProductToCache = (newProduct: ProductData) => {
-  const products = loadProductsFromCache() || [];
-  const productExists = products.some((product : ProductData) => product._id === newProduct._id);
-
-  if (!productExists) {
-    const updatedProducts = [...products, newProduct];
-    localStorage.setItem('products', JSON.stringify(updatedProducts));
-  }
-};
-
 export function getPriceDescription(product: ProductData, nrDays?: number) {
   const daysToConsider = (nrDays === undefined ? product.priceHistory.length : nrDays);
 
@@ -105,4 +103,17 @@ export function getPriceDescription(product: ProductData, nrDays?: number) {
   else if (currentPrice > averagePrice)
     return 'higher than average price';
   return '';
+}
+
+export function checkPriceDrop(product: ProductData): boolean {
+  const priceHistory = product.priceHistory;
+
+  if (priceHistory.length < 2) {
+    return false;
+  }
+
+  const lastPrice = priceHistory[priceHistory.length - 1];
+  const secondToLastPrice = priceHistory[priceHistory.length - 2];
+
+  return lastPrice < secondToLastPrice;
 }
