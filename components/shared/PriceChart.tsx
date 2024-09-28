@@ -92,6 +92,19 @@ const PriceChart: React.FC<Props> = ({ product }) => {
     <Card className="md:mt-10">
       <CardHeader className="p-0 md:p-6 mt-2">
         {/* ... */}
+        <div className="hidden lg:block">
+            <Select onValueChange={(value) => {setNrdays(getNrdaysByValue(value))}} >
+              <SelectTrigger className="h-[40px] w-[180px]">
+                <SelectValue placeholder="Timeframe"/>
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="week">last week</SelectItem>
+                <SelectItem value="month">last month</SelectItem>
+                <SelectItem value="three months">last three months</SelectItem>
+                <SelectItem value="year">last year</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
       </CardHeader>
       <CardContent className="p-0 md:p-6">
         <ChartContainer config={chartConfig}>
@@ -132,6 +145,7 @@ const PriceChart: React.FC<Props> = ({ product }) => {
             />
           </AreaChart>
         </ChartContainer>
+        
       </CardContent>
       {/* ... */}
     </Card>
