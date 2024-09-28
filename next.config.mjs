@@ -6,7 +6,7 @@ const nextConfig = {
       'lcdn.altex.ro',           // altex
       'lcdn.mediagalaxy.ro',     // mediagalaxy
       's1.cel.ro',               // cel
-      'static.nike.com'
+      'static.nike.com',         // nike
       
     ],
   },
