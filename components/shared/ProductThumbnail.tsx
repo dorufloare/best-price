@@ -10,7 +10,7 @@ const ProductThumbnail: React.FC<{
 
   return (
     <div className='flex flex-col justify-center items-center w-[100%] p-5'>
-      <div className='relative w-[200px] h-[200px] overflow-hidden'>
+      <div className='relative w-[150px] h-[150px] md:w-[200px] md:h-[200px] overflow-hidden'>
         <Image
           src={imageUrl}
           alt='product thumbnail'
