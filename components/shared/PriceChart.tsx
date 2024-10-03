@@ -91,8 +91,14 @@ const PriceChart: React.FC<Props> = ({ product }) => {
   return (
     <Card className="md:mt-10">
       <CardHeader className="p-0 md:p-6 mt-2">
-        {/* ... */}
-        <div className="hidden lg:block">
+      <div className="flex flex-row justify-between items-center mb-3">
+          <div className="flex flex-row items-center md:flex-col md:items-start gap-4 md:gap-0">
+            <CardTitle className="text-md md:text-2xl mb-0 md:mb-2 text-red-600">
+              {product.available ? getCurrentPrice(product) + ' ' + product.currency : 'Out of stock'}
+            </CardTitle>
+            <p className="text-xs md:text-base text-red-600"> * {priceDescription} </p>
+          </div>
+          <div className="hidden lg:block">
             <Select onValueChange={(value) => {setNrdays(getNrdaysByValue(value))}} >
               <SelectTrigger className="h-[40px] w-[180px]">
                 <SelectValue placeholder="Timeframe"/>
@@ -105,6 +111,11 @@ const PriceChart: React.FC<Props> = ({ product }) => {
               </SelectContent>
             </Select>
           </div>
+        </div>
+        <CardDescription className="text-xs md:text-sm pb-3">
+          {`Prices for the last ${chartData.length} days`}
+        </CardDescription>
+        
       </CardHeader>
       <CardContent className="p-0 md:p-6">
         <ChartContainer config={chartConfig}>

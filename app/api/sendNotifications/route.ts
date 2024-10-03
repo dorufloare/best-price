@@ -25,6 +25,8 @@ export async function POST(request: Request) {
     });
 
     const users = await getAllUsers()
+		console.log("w")
+
 		users.forEach((user : UserData) => {
 			const productIds = user.products;
 			const email = user.email;
@@ -34,6 +36,8 @@ export async function POST(request: Request) {
 				const dashboardLink = process.env.NEXT_PUBLIC_BASE_URL + "/product/" + product._id;
 
 				if (checkPriceDrop(product)) {
+					console.log(`Email to user: ${email} for product ${product.name}`)
+
 					const currPrice = product.priceHistory[product.priceHistory.length - 1];
 					const lastPrice = product.priceHistory[product.priceHistory.length - 2];
 
