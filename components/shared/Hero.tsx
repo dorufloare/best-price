@@ -29,7 +29,7 @@ const Hero = () => {
               </p>
               {/* Buttons */}
               <div className="mt-7 grid gap-3 w-full sm:inline-flex ">
-              <Link href={isLoggedIn ? '/dashboard' : '/signup'}>
+              <Link href={isLoggedIn ? '/dashboard' : '/sign-up'}>
                 <Button size={"lg"}>Get started</Button>
               </Link>
                 <Link href='/contact'>
